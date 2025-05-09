@@ -1,10 +1,9 @@
-const API_BASE = "http://20.244.56.144/evaluation-service/stocks"; // Replace with your actual API base URL
+const API_BASE = "http://20.244.56.144/evaluation-service/stocks"; 
 
-// Cache structure: { key: { timestamp: number, data: any } }
 const cache = {};
-const CACHE_DURATION_MS = 60 * 1000; // 1 minute cache duration
+const CACHE_DURATION_MS = 60 * 1000; 
 
-// Helper to check if cache is valid
+
 function isCacheValid(key) {
   if (!cache[key]) return false;
   return Date.now() - cache[key].timestamp < CACHE_DURATION_MS;
@@ -27,12 +26,7 @@ export async function fetchAllStocks() {
   return data;
 }
 
-/**
- * Fetch price history for a single stock over last minutes.
- * Example endpoint: GET /stocks/{symbol}/prices?minutes={minutes}
- * @param {string} symbol - Stock symbol, e.g. "AAPL"
- * @param {number} minutes - Last minutes interval
- */
+
 export async function fetchStockPrices(symbol, minutes) {
   const cacheKey = `prices_${symbol}_${minutes}`;
   if (isCacheValid(cacheKey)) {
@@ -49,12 +43,7 @@ export async function fetchStockPrices(symbol, minutes) {
   return data;
 }
 
-/**
- * Fetch price history for multiple stocks in parallel.
- * @param {string[]} symbols - Array of stock symbols
- * @param {number} minutes - Last minutes interval
- * @returns {Promise<Object>} - Object mapping symbol -> price data array
- */
+
 export async function fetchMultipleStocksPrices(symbols, minutes) {
   const promises = symbols.map((sym) => fetchStockPrices(sym, minutes));
   const results = await Promise.all(promises);
