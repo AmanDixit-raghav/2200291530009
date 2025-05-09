@@ -28,7 +28,7 @@ export default function StockPage() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Fetch stock prices for selected stock and minutes
+  
   useEffect(() => {
     setLoading(true);
     fetch(`${API_BASE}/stocks/${stock}/prices?minutes=${minutes}`)
@@ -45,7 +45,7 @@ export default function StockPage() {
       .catch(() => setLoading(false));
   }, [stock, minutes]);
 
-  // Calculate average price
+  
   const average =
     data.length > 0 ? data.reduce((acc, p) => acc + p.price, 0) / data.length : 0;
 
